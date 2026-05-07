@@ -70,29 +70,9 @@ tests/
 
 sim_data/              — cache directory for new-code NPZ results
 origin_exports/        — CSV exports used for quick visual debugging only
-docs/
-  AGENT_PACKET.md      — design notes from the initial rewrite
 ```
 
-## Physics
 
-The model treats each layer as one finite-volume cell.  The state vector has
-`n_state = n_traps_total + n_layers` components:
-
-```
-[trapped_A, trapped_B, …, trapped_E,   mobile_A, …, mobile_E]
-```
-
-**Trap kinetics** (per layer, per trap):
-
-$$\frac{dC_\text{trapped}}{dt} = k_\text{trap}(T)\,C_\text{mobile}\,(C_\text{cap} - C_\text{trapped}) - k_\text{detrap}(T)\,C_\text{trapped}$$
-
-**Inter-layer diffusion flux** (between adjacent FV cells):
-
-$$J_{i \to i+1} = D(T)\,\frac{C_i - C_{i+1}}{d_\text{interface}}$$
-
-All rates follow an Arrhenius law $k(T) = \nu \exp(-E_a / k_B T)$.  Solver
-concentrations are dimensionless (physical = solver × `conc_scale = 1e22` cm⁻³).
 
 ## Solver
 
